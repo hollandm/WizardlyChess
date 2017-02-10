@@ -1,2 +1,4 @@
 *.sublime-*
 *.stl
+*.gcode
+ignore_me/*
