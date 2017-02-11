@@ -99,7 +99,8 @@ module motor_negative() {
 linear_rail_diameter = 8;
 linear_rail_length = 506;
 module rail() {
-    cylinder(d = linear_rail_diameter, h = linear_rail_length, $fn=25);
+    color([1/2,1/2,1/2])
+        cylinder(d = linear_rail_diameter, h = linear_rail_length, $fn=25);
 }
 
 bearing_height = 24;
@@ -111,6 +112,13 @@ module bearing() {
         translate([0,0,-1])
             cylinder(h = bearing_height+2, d = bearing_innter_diameter, $fn=25);
     }
+}
+
+electromagnet_diameter = 25; //mm
+electromagnet_height = 20; //mm
+module electromagnet() {
+    color([1/2,1/2,1/2])
+        cylinder(h = electromagnet_height, d = electromagnet_diameter, $fn=25);
 }
 
 post_motor_depth_x = 10;
