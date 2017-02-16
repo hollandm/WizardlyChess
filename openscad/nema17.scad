@@ -20,8 +20,8 @@ motor_pully_diameter3 = 16;
 motor_pully_height1 = 10;
 motor_pully_height2 = 5;
 motor_pully_height3 = 1;
+motor_pully_height = motor_pully_height1 + motor_pully_height2 + motor_pully_height3;
 
-motor_pully_height = 16;
 motor_pully_diameter = 16;
 
 motor_height = motor_base_height + motor_center_height + motor_shaft_length;

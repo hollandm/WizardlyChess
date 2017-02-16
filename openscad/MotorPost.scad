@@ -263,27 +263,42 @@ module corner_post_2rail() {
     cp2r_width_y = linear_rail_indent+end_cushion_length;
     cp2r_height = cpm_base_height;
     
+    pully_slot_width_x = motor_pully_height + 2; 
+    
     difference() {
         union() {
             translate([0, -end_cushion_length, 0]) {
                 cube([cp2r_width_x, cp2r_width_y, cp2r_height]);
                 cube([cpm_belt_slot_offset_x, cp2r_width_y, cpm_motor_negative_offset_z]);
+                
+                translate([cpm_belt_slot_offset_x + pully_slot_width_x, 0,0 ]) {
+                    cube([cpm_belt_slot_offset_x, cp2r_width_y, cpm_motor_negative_offset_z]);
+                    
+                    translate([0, cp2r_width_y/2, cpm_motor_negative_offset_z])
+                        rotate([0, 90, 0])
+                            cylinder(h=cpm_belt_slot_offset_x, d=cp2r_width_y);
+                }
+                        
+                translate([0, cp2r_width_y/2, cpm_motor_negative_offset_z])
+                    rotate([0, 90, 0])
+                        cylinder(h=cpm_belt_slot_offset_x, d=cp2r_width_y);
+               
             }
-            
-            translate([cpm_rail1_offset_x, 0, cpm_rail_offset_z])
-                rotate([-90, 0, 0])
-                    cylinder(h=linear_rail_indent,d=cpm_rail_holder_diameter);
             
             translate([cpm_rail2_offset_x, 0, cpm_rail_offset_z])
                 rotate([-90, 0, 0])
                     cylinder(h=linear_rail_indent,d=cpm_rail_holder_diameter);
             
-            
+             
         }
         
         // Belt Slot
         translate([cpm_belt_slot_offset_x, -20, cpm_belt_slot_offset_z])
-            cube([belt_slot_width_x, 40, cpm_belt_slot_offset_z]);
+            cube([pully_slot_width_x, 40, cpm_belt_slot_offset_z]);
+        
+        translate([-1, cp2r_width_y/2-end_cushion_length, cpm_motor_negative_offset_z])
+            rotate([0, 90, 0])
+                cylinder(h=cpm_belt_slot_offset_x*2+ pully_slot_width_x + 2, d=motor_shaft_radius);
     }
 }
 
