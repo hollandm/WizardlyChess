@@ -2,6 +2,47 @@ include <m3_screw.scad>
 include <nema17.scad>
 include <rails.scad>
 
+module button_negative() {
+
+    button_width_x = 6.5;
+    button_width_y = 4;
+    button_width_z = 6.5;
+    
+    pin_depth_x = 1;
+    pin_depth_y = 8;
+    pin_depth_z = 1.5;
+    
+    wire_slot_x = 10;
+    
+    button_cover_width_x = button_width_x;
+    button_cover_width_y = 2;
+    button_cover_width_z = button_width_z + 15;
+    
+    union() {
+        translate([0, 0, -2])
+            cube([button_cover_width_x, button_cover_width_y, button_cover_width_z]);
+        
+        translate([0, button_cover_width_y-0.01, 0]) {
+            cube([button_width_x, button_width_y, button_width_z]);
+            
+            cube([pin_depth_x, pin_depth_y + button_width_y, pin_depth_z]);
+            
+            translate([0, 0, button_width_z-pin_depth_z])
+               cube([pin_depth_x, pin_depth_y + button_width_y, pin_depth_z]); 
+            
+            translate([button_width_x-pin_depth_x, 0, button_width_z-pin_depth_z])
+               cube([pin_depth_x+wire_slot_x, pin_depth_y + button_width_y, pin_depth_z]);
+            
+            translate([button_width_x-pin_depth_x, 0, 0])
+               cube([pin_depth_x+wire_slot_x, pin_depth_y + button_width_y, pin_depth_z]);
+        }
+        
+        translate([button_width_x/2, 0, button_cover_width_z-5])
+            rotate([-90, 0, 0])
+                cylinder(h=20, d=screw_diameter, $fn=25);
+    }
+
+}
 
 electromagnet_diameter = 25; //mm
 electromagnet_height = 20; //mm
@@ -58,6 +99,7 @@ module corner_post_motor() {
             translate([cpm_rail2_offset_x, 0, cpm_rail_offset_z])
                 rotate([-90,0,0])
                     cylinder(h=linear_rail_indent-0.01,d=cpm_rail_holder_diameter);
+           
         }
         
 
@@ -69,9 +111,17 @@ module corner_post_motor() {
         
         // Belt Slot
         translate([cpm_belt_slot_offset_x, -1, cpm_belt_slot_offset_z])
-            cube([belt_slot_width_x, cpm_motor_negative_offset_y, cpm_belt_slot_offset_z]);
+            cube([belt_slot_width_x, cpm_motor_negative_offset_y,       
+cpm_belt_slot_offset_z]);
+        
+        translate([cpm_post_offset_x+cpm_post_width_x/3, -0.1, cpm_base_height])
+            button_negative();
     }
 }   
+
+
+//translate([0, -40, 0])
+//    cube([40, 40, 20]);
 
 corner_post_motor();
 
@@ -253,8 +303,10 @@ module tram_assembally() {
 
 }
 
-translate([tram_offset_x, -100, tram_offset_z])
+translate([tram_offset_x, -70, tram_offset_z])
     tram_assembally();
+
+
 
 module corner_post_2rail() {
     end_cushion_length = 10;
