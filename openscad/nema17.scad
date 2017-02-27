@@ -1,5 +1,6 @@
 // Basic Nema 17 Stepper Motor
 
+screw_diameter = 3;
 
 motor_base_height = 42;
 motor_width = 42;
@@ -75,7 +76,9 @@ module motor() {
 }
 
 motor_negative_shaft_diameter = motor_center_radius+1;
-module motor_negative(screw_hole_depth=100) {
+module motor_negative(screw_hole_depth=10) {
+    extra_space = 0.4;
+    
     echo(screw_hole_depth);
     translate([0,0,-motor_base_height])
     union() {
@@ -85,10 +88,10 @@ module motor_negative(screw_hole_depth=100) {
         // Motor Body
         translate([0,0,-motor_base_height])
         intersection(){
-            cube([motor_width,motor_width, motor_base_height*2], center = true);
+            cube([motor_width+extra_space,motor_width+extra_space, motor_base_height*2], center = true);
             rotate([0,0,45]) 
                 translate([0,0,-1]) 
-                    cube([motor_bevel_width, motor_bevel_width, motor_base_height*2+2], center = true);
+                    cube([motor_bevel_width+extra_space, motor_bevel_width+extra_space, motor_base_height*2+2], center = true);
         }
             
         // Screw Holes

@@ -1,10 +1,16 @@
 // Rail and Bearing
 
+linear_rail_negative_add = 0.2;
 linear_rail_diameter = 8;
 linear_rail_length = 506;
 module rail() {
     color([1/2,1/2,1/2])
         cylinder(d = linear_rail_diameter, h = linear_rail_length, $fn=25);
+}
+
+module rail_negative() {
+    color([1/2,1/2,1/2])
+        cylinder(d = linear_rail_diameter+linear_rail_negative_add, h = linear_rail_length, $fn=25);
 }
 
 bearing_height = 24;

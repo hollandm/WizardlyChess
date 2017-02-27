@@ -1,48 +1,7 @@
 include <m3_screw.scad>
 include <nema17.scad>
 include <rails.scad>
-
-module button_negative() {
-
-    button_width_x = 6.5;
-    button_width_y = 4;
-    button_width_z = 6.5;
-    
-    pin_depth_x = 1;
-    pin_depth_y = 8;
-    pin_depth_z = 1.5;
-    
-    wire_slot_x = 10;
-    
-    button_cover_width_x = button_width_x;
-    button_cover_width_y = 2;
-    button_cover_width_z = button_width_z + 15;
-    
-    union() {
-        translate([0, 0, -2])
-            cube([button_cover_width_x, button_cover_width_y, button_cover_width_z]);
-        
-        translate([0, button_cover_width_y-0.01, 0]) {
-            cube([button_width_x, button_width_y, button_width_z]);
-            
-            cube([pin_depth_x, pin_depth_y + button_width_y, pin_depth_z]);
-            
-            translate([0, 0, button_width_z-pin_depth_z])
-               cube([pin_depth_x, pin_depth_y + button_width_y, pin_depth_z]); 
-            
-            translate([button_width_x-pin_depth_x, 0, button_width_z-pin_depth_z])
-               cube([pin_depth_x+wire_slot_x, pin_depth_y + button_width_y, pin_depth_z]);
-            
-            translate([button_width_x-pin_depth_x, 0, 0])
-               cube([pin_depth_x+wire_slot_x, pin_depth_y + button_width_y, pin_depth_z]);
-        }
-        
-        translate([button_width_x/2, 0, button_cover_width_z-5])
-            rotate([-90, 0, 0])
-                cylinder(h=20, d=screw_diameter, $fn=25);
-    }
-
-}
+include <endstop_button.scad>
 
 electromagnet_diameter = 25; //mm
 electromagnet_height = 20; //mm
@@ -109,34 +68,34 @@ module corner_post_motor() {
         
         corner_post_motor_yrails();
         
+        translate([cpm_base_width_x-linear_rail_indent, linear_rail_indent/2, 6])
+            rotate([0, 90, 0])
+                rail_negative();
+        
         // Belt Slot
         translate([cpm_belt_slot_offset_x, -1, cpm_belt_slot_offset_z])
             cube([belt_slot_width_x, cpm_motor_negative_offset_y,       
 cpm_belt_slot_offset_z]);
         
-        translate([cpm_post_offset_x+cpm_post_width_x/3, -0.1, cpm_base_height])
+        translate([cpm_post_offset_x+cpm_post_width_x/2-button_cover_width_x/2, -0.1, 2])
             button_negative();
+        
+
     }
 }   
 
-
-//translate([0, -40, 0])
-//    cube([40, 40, 20]);
-
-corner_post_motor();
 
 
 module corner_post_motor_yrails() {
     
     translate([cpm_rail1_offset_x, linear_rail_indent, cpm_rail_offset_z])
         rotate([90,0,0])
-            rail();
+            rail_negative();
     
     translate([cpm_rail2_offset_x, linear_rail_indent, cpm_rail_offset_z])
         rotate([90,0,0])
-            rail();
+            rail_negative();
 }
-corner_post_motor_yrails();
 
 
 module corner_post_motor_motor() {
@@ -144,7 +103,6 @@ module corner_post_motor_motor() {
         rotate([0,-90,0])
             motor();
 }
-corner_post_motor_motor();
 
 tram_offset_x = -6;
 tram_offset_z = cpm_rail_offset_z - bearing_outer_diameter/2;
@@ -258,11 +216,11 @@ module tram() {
         // Rails
         translate([tram_rail_offset_x, tram_rail_1_offset_y, tram_rail_offset_z])
             rotate([0, 90, 0])
-                rail();
+                rail_negative();
         
         translate([tram_rail_offset_x, tram_rail_2_offset_y, tram_rail_offset_z])
             rotate([0, 90, 0])
-                rail();
+                rail_negative();
                 
     }
     
@@ -294,17 +252,15 @@ module tram_assembally() {
     
     translate([tram_rail_offset_x, 10, tram_motor_offset_z])
         rotate([0, 90, 0])
-            rail();
+            rail_negative();
     
     translate([tram_rail_offset_x, tram_motor_mount_width_y - 10, tram_motor_offset_z])
         rotate([0, 90, 0])
-            rail();
+            rail_negative();
 
 
 }
 
-translate([tram_offset_x, -70, tram_offset_z])
-    tram_assembally();
 
 
 
@@ -354,5 +310,10 @@ module corner_post_2rail() {
     }
 }
 
-translate([0, -(linear_rail_length-linear_rail_indent), 0])
-    corner_post_2rail();
+corner_post_motor();
+//corner_post_motor_yrails();
+//corner_post_motor_motor();
+//translate([tram_offset_x, -70, tram_offset_z])
+//    tram_assembally();
+//translate([0, -(linear_rail_length-linear_rail_indent), 0])
+//    corner_post_2rail();
