@@ -1,12 +1,12 @@
 include <m3_screw.scad>
 
-button_width_x = 6.5;
+button_width_x = 6.2;
 button_width_y = 4;
-button_width_z = 6.5;
+button_width_z = 6.1;
 
 pin_depth_x = 1;
 pin_depth_y = 10;
-pin_depth_z = 1.5;
+pin_depth_z = 1.1;
 
 wire_slot_x = 10;
     
