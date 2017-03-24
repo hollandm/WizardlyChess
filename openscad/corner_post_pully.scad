@@ -1,3 +1,4 @@
+include <pully_insert.scad>
 
 module corner_post_pully() {
     end_cushion_length = 10;
@@ -41,8 +42,9 @@ module corner_post_pully() {
         
         translate([-1, cpp_width_y/2-end_cushion_length, cpm_motor_negative_offset_z])
             rotate([0, 90, 0]) {
-                cylinder(h=cpm_belt_slot_offset_x*2+ pully_slot_width_x, d=motor_shaft_radius+0.1, $fn=300);
-                cylinder(h=cpm_belt_slot_offset_x + pully_slot_width_x, d=motor_shaft_radius*2+0.1, $fn=300);
+                cylinder(h=cpm_belt_slot_offset_x*2+ pully_slot_width_x, d=pi_inner_diameter, $fn=300);
+//                cylinder(h=cpm_belt_slot_offset_x*2+ pully_slot_width_x, d=motor_shaft_radius+0.1, $fn=300);
+//                cylinder(h=cpm_belt_slot_offset_x + pully_slot_width_x, d=motor_shaft_radius*2+0.1, $fn=300);
             }
             
         translate([cpm_base_width_x-cpm_linear_rail_indent, -4, 6])

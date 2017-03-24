@@ -2,16 +2,16 @@
 
 include <nema17.scad>
 
-outer_diameter = 4.8;
-inner_diameter = 3.6;
-height = motor_pully_height;
+pi_outer_diameter = 4.8;
+pi_inner_diameter = 3.6;
+pi_height = motor_pully_height;
 
 $fn = 240;
 module pully_insert() {
     difference() {
-        cylinder(d=outer_diameter, h=height);
-        cylinder(d=inner_diameter, h=height);
+        cylinder(d=pi_outer_diameter, h=pi_height);
+        cylinder(d=pi_inner_diameter, h=pi_height);
     }
 }
 
-pully_insert();
+//pully_insert();
